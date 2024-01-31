@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+option csharp_namespace = "GrpcServer";
+
+package user;
+
+service User {
+	rpc Search (SearchRequest) returns (SearchReply);
+}
+
+message SearchRequest {
+	int32 page = 1;
+	int32 size = 2;
+	string term = 3;
+}
+
+message SearchReply {
+	int32 total = 1;
+	repeated Register users = 2;
+}
+
+message Register {
+	string id = 1;
+	string name = 2;
+	string nickName = 3;
+	string email = 4;
+	string createdAt = 5;
+}

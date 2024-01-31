@@ -1,4 +1,5 @@
 ﻿using Grpc.Net.Client;
+using System.Text.Json;
 
 namespace GrpcClient 
 { 
@@ -19,6 +20,17 @@ namespace GrpcClient
 
                 Console.WriteLine($"10 + 5 = {replyCalc.Result} -- response with delay ");
 
+
+                var clientUser = new User.UserClient(channel);
+                var userReply = await clientUser.SearchAsync(new SearchRequest { Page = 3, Size = 10, Term = "" });
+
+                Console.WriteLine($"Total of Users : {userReply.Total}");
+                userReply.Users.ToList().ForEach(a =>
+                {
+                    Console.WriteLine($"User : {JsonSerializer.Serialize(a)}");
+                    var test = DateTime.Parse(a.CreatedAt);
+                    //Console.WriteLine($"User CreatedAt : {DateTime.fr (a.CreatedAt)}");
+                });
             }
 
             Console.ReadKey();
